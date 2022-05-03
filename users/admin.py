@@ -11,51 +11,51 @@ User = get_user_model()
 class ExtendedUserAdmin(BaseUserAdmin):
     model = User
     list_display = (
-        "email",
-        "mobile_number",
+        'email',
+        'mobile_number',
     )
-    list_filter = ("is_staff",)
+    list_filter = ('is_staff',)
     # add_form = CustomUserCreationForm
-    ordering = ("email",)
+    ordering = ('email',)
     add_fieldsets = (
         (
             None,
             {
-                "classes": ("wide",),
-                "fields": (
-                    "email",
-                    "password1",
-                    "password2",
+                'classes': ('wide',),
+                'fields': (
+                    'email',
+                    'password1',
+                    'password2',
                 ),
             },
         ),
     )
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        (None, {'fields': ('email', 'password')}),
         (
-            _("Personal info"),
+            _('Personal info'),
             {
-                "fields": (
-                    "avatar",
-                    "first_name",
-                    "last_name",
-                    "middle_name",
-                    "mobile_number",
-                    "role",
+                'fields': (
+                    'avatar',
+                    'first_name',
+                    'last_name',
+                    'middle_name',
+                    'mobile_number',
+                    'role',
                 )
             },
         ),
         (
-            _("Permissions"),
+            _('Permissions'),
             {
-                "fields": (
-                    "is_active",
-                    "is_staff",
-                    "is_superuser",
-                    # "groups",
-                    "user_permissions",
+                'fields': (
+                    'is_active',
+                    'is_staff',
+                    'is_superuser',
+                    # 'groups',
+                    'user_permissions',
                 ),
             },
         ),
-        (_("Important dates"), {"fields": ("last_login",)}),
+        (_('Important dates'), {'fields': ('last_login',)}),
     )
