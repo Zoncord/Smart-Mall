@@ -20,7 +20,7 @@ class BaseRating(models.Model):
 class MallRating(BaseRating):
     user = models.ForeignKey(to=get_user_model(), verbose_name='пользователь', on_delete=models.CASCADE,
                              related_name='mall_rating')
-    mall = models.ForeignKey(to='mall.Mall', verbose_name='тц', on_delete=models.CASCADE, related_name='rating')
+    mall = models.ForeignKey(to='malls.Mall', verbose_name='тц', on_delete=models.CASCADE, related_name='ratings')
 
     def __str__(self):
         return str(self.user) + ' ' + str(self.mall) + ' ' + str(self.star)
@@ -36,8 +36,8 @@ class MallRating(BaseRating):
 class AreaRating(BaseRating):
     user = models.ForeignKey(to=get_user_model(), verbose_name='пользователь', on_delete=models.CASCADE,
                              related_name='area_rating')
-    area = models.ForeignKey(to='mall.Area', verbose_name='площадь для аренды', on_delete=models.CASCADE,
-                             related_name='rating')
+    area = models.ForeignKey(to='malls.Area', verbose_name='площадь для аренды', on_delete=models.CASCADE,
+                             related_name='ratings')
 
     def __str__(self):
         return str(self.user) + ' ' + str(self.area) + ' ' + str(self.star)
