@@ -4,14 +4,19 @@ from malls import models
 
 class GalleryAdmin(admin.TabularInline):
     model = models.Gallery
-    can_delete = False
+    extra = 1
+    max_num = 100
+
+
+class AreaAdmin(admin.TabularInline):
+    model = models.Area
     extra = 1
     max_num = 100
 
 
 @admin.register(models.Mall)
 class MallAdmin(admin.ModelAdmin):
-    inlines = (GalleryAdmin, )
+    inlines = (GalleryAdmin, AreaAdmin)
     list_display = ('name', )
     list_display_links = ('name', )
 
