@@ -2,10 +2,12 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from sorl.thumbnail import get_thumbnail
 from PIL import Image
+from django.contrib.auth import get_user_model
 
 
 class Mall(models.Model):
     name = models.CharField('Название', max_length=50, help_text='Название ТЦ, максимум 50 символов')
+    owner = models.ForeignKey(get_user_model(), verbose_name='Владелец', on_delete=models.CASCADE, related_name='malls')
     description = models.TextField('Описание', help_text='Описание ТЦ')
     address = models.CharField('Адрес', max_length=150, help_text='Адрес ТЦ, максимум 150 символов')
     # Заглушка для рейтинга и площади
