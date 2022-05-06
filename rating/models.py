@@ -53,7 +53,7 @@ class AreaRating(BaseRating):
 class UserRating(BaseRating):
     user = models.ForeignKey(to=get_user_model(), verbose_name='пользователь', on_delete=models.CASCADE,
                              related_name='user_rating')
-    evaluated_user = models.ForeignKey(to=get_user_model(), verbose_name='пользователь', on_delete=models.CASCADE,
+    evaluated_user = models.ForeignKey(to=get_user_model(), verbose_name='Оцениваемый пользователь', on_delete=models.CASCADE,
                                        related_name='ratings')
 
     def __str__(self):

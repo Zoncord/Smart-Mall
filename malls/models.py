@@ -69,7 +69,7 @@ class Rent(models.Model):
         (False, 'Закончилась')
     ]
 
-    area = models.ForeignKey(Mall, on_delete=models.DO_NOTHING, related_name='rents', verbose_name='Площадь')
+    area = models.ForeignKey(Area, on_delete=models.DO_NOTHING, related_name='rents', verbose_name='Площадь')
     tenant = models.ForeignKey(get_user_model(), verbose_name='Арендатор', on_delete=models.CASCADE,
                                related_name='rents', help_text='Арендатор площади')
     rental_start_date_time = models.DateTimeField(verbose_name='Дата и время начала аренды', default=timezone.now)

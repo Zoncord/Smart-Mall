@@ -4,11 +4,14 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 
+from rating.admin import UserRatingInline
+
 User = get_user_model()
 
 
 @admin.register(User)
 class ExtendedUserAdmin(BaseUserAdmin):
+    inlines = [UserRatingInline]
     model = User
     list_display = (
         'email',
