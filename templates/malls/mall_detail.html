@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Информация о ТЦ{% endblock %}
+{% block content %}
+  <h1 class="my-3">Информация о ТЦ</h1>
+
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">{{ mall.name }}</h3>
+      <h5 class="card-subtitle mb-2 text-muted">{{ mall.address }}</h5>
+      <h5 class="card-subtitle mb-2">Владелец: {{ mall.owner.username }}</h5>
+      <p class="card-text">{{ mall.description }}</p>
+
+      <h4 class="card-text">Площади</h4>
+      {% if mall.areas.all %}
+        <div class="list-group my-3">
+          {% for area in mall.areas.all %}
+            <a href="{% url 'area_detail' mall.pk area.pk %}" class="list-group-item list-group-item-action">{{ area }}</a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <h5 class="card-subtitle mb-2 text-muted">Площадей нет</h5>
+      {% endif %}
+
+      <h4 class="card-text">Галерея</h4>
+      {% if mall.gallery.all %}
+        <div class="container my-3">
+          {% for image in mall.gallery.all %}
+            <img src="{{ image.get_image.url }}" alt="Картинка ТЦ" class="img-fluid">
+          {% endfor %}
+        </div>
+      {% else %}
+        <h5 class="card-subtitle mb-2 text-muted">Картинок нет</h5>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
