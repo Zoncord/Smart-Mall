@@ -17,8 +17,16 @@ class AreaAdmin(admin.TabularInline):
 @admin.register(models.Mall)
 class MallAdmin(admin.ModelAdmin):
     inlines = (GalleryAdmin, AreaAdmin)
-    list_display = ('name', )
-    list_display_links = ('name', )
+    list_display = ('name',)
+    list_display_links = ('name',)
 
     class Meta:
         model = models.Mall
+
+
+@admin.register(models.Rent)
+class RentAdmin(admin.ModelAdmin):
+    list_display = ('area', 'tenant')
+
+    class Meta:
+        model = models.Rent

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.safestring import mark_safe
 from sorl.thumbnail import get_thumbnail
 from PIL import Image
@@ -7,11 +8,10 @@ from django.contrib.auth import get_user_model
 
 class Mall(models.Model):
     name = models.CharField('Название', max_length=50, help_text='Название ТЦ, максимум 50 символов')
-    owner = models.ForeignKey(get_user_model(), verbose_name='Владелец', on_delete=models.CASCADE, related_name='malls', help_text='Владелец ТЦ')
+    owner = models.ForeignKey(get_user_model(), verbose_name='Владелец', on_delete=models.CASCADE, related_name='malls',
+                              help_text='Владелец ТЦ')
     description = models.TextField('Описание', help_text='Описание ТЦ')
     address = models.CharField('Адрес', max_length=150, help_text='Адрес ТЦ, максимум 150 символов')
-    # Заглушка для рейтинга
-    # rating = None
 
     class Meta:
         verbose_name = 'Торговый центр'
@@ -61,3 +61,24 @@ class Area(models.Model):
 
     def __str__(self):
         return f'{self.mall} - площадь №{self.pk}'
+
+
+class Rent(models.Model):
+    STATUS_CHOICES = [
+        (True, 'Активна'),
+        (False, 'Закончилась')
+    ]
+
+    area = models.ForeignKey(Mall, on_delete=models.DO_NOTHING, related_name='rents', verbose_name='Площадь')
+    tenant = models.ForeignKey(get_user_model(), verbose_name='Арендатор', on_delete=models.CASCADE,
+                               related_name='rents', help_text='Арендатор площади')
+    rental_start_date_time = models.DateTimeField(verbose_name='Дата и время начала аренды', default=timezone.now)
+    balance = models.BigIntegerField(verbose_name='Баланс')
+    status = models.BooleanField('Статус аренды', choices=STATUS_CHOICES, default=True)
+
+    class Meta:
+        verbose_name = 'Аренда'
+        verbose_name_plural = 'Аренды'
+
+    def __str__(self):
+        return f'{self.tenant} арендует - площадь №{self.area}'
