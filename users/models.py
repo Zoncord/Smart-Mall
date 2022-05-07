@@ -28,7 +28,9 @@ class BasicCustomerManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
 
         if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Админимтраторы должны быть определенны с is_superuser=True.')
+            raise ValueError(
+                'Админимтраторы должны быть определенны с is_superuser=True.'
+            )
 
         return self._create_user(email, password, **extra_fields)
 
@@ -51,7 +53,13 @@ class BasicCustomer(AbstractBaseUser, PermissionsMixin):
         },
         help_text=_('Required. Enter a valid email address.'),
     )
-    mobile_number = PhoneNumberField(_('mobile number'), blank=True)
+    mobile_number = PhoneNumberField(
+        _('mobile number'),
+        blank=True,
+        error_messages={
+            'incorrect': _('Incorrect mobile number.'),
+        },
+    )
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     middle_name = models.CharField('Отчество', max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
@@ -82,6 +90,9 @@ class BasicCustomer(AbstractBaseUser, PermissionsMixin):
             if image.height > 100 or image.width > 100:
                 image.thumbnail((100, 100), Image.ANTIALIAS)
                 image.save(self.avatar.path)
+
+    def __str__(self):
+        return self.email
 
     class Meta:
         verbose_name = 'Пользователь'

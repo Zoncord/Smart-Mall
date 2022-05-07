@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+  <h1 class="my-3">Регистрация</h1>
+
+  <div class="card">
+    <div class="card-body">
+      {% if form.errors %}
+        <h3 class="mt-3">
+          {% if form.errors.items|length == 1 %}
+            Пожалуйста, исправьте ошибку ниже.
+          {% else %}
+            Пожалуйста, исправьте ошибки ниже.
+          {% endif %}
+        </h3>
+      {% endif %}
+
+      {% include "includes/signup_form.html" %}
+    </div>
+  </div>
+{% endblock %}
