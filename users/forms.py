@@ -8,20 +8,11 @@ from django.contrib.auth.forms import (
 )
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
-from django.conf import settings
-from os import path
 from django.contrib.auth import password_validation
 
 
 class ImageWidget(forms.widgets.ClearableFileInput):
     template_name = 'widgets/image.html'
-
-    def format_value(self, value):
-        '''
-        Return the file object if it has a defined url attribute.
-        '''
-        if self.is_initial(value):
-            return value
 
 
 class BeautifulAuthenticationForm(forms.Form):
@@ -72,7 +63,8 @@ class UserForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=False,
     )
-
+    is_lessor = forms.BooleanField(help_text="Выбрать этот пункт если хотите стать арендодателем", required=False, label='Арендодатель')
+    is_tenant = forms.BooleanField(help_text="Выбрать этот пункт если хотите стать арендатором", required=False, label='Арендатор')
     avatar = forms.ImageField(label='Аватар', required=False, widget=ImageWidget())
 
     class Meta:
@@ -84,7 +76,8 @@ class UserForm(forms.ModelForm):
             'middle_name',
             'email',
             'mobile_number',
-            'role',
+            'is_lessor',
+            'is_tenant',
         )
 
 

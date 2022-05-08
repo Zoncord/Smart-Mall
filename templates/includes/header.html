@@ -33,6 +33,19 @@
           <a class='nav-link' href='{% url 'user:signup' %}'>Регистрация</a>
         </li>
         {% endif %}
+        <!-- тут заканчивается блок который надо будет поправить -->
+        {% if user.is_lessor %}
+        <li class='nav-item'>
+          <a class='nav-link' href='{% url 'user:lessor_profile' %}'>Профиль
+            арендодатора</a>
+        </li>
+        {% endif %}
+        {% if user.is_tenant %}
+        <li class='nav-item'>
+          <a class='nav-link' href='{% url 'user:tenant_profile' %}'>Профиль
+            арендатора</a>
+        </li>
+        {% endif %}
       </ul>
     </div>
   </div>
