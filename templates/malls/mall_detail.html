@@ -4,11 +4,15 @@
 {% block content %}
   <h1 class="my-3">Информация о ТЦ</h1>
 
+  {% if user == mall.owner %}
+    <a class="btn btn-primary my-3" href="{% url 'mall_edit' mall.pk %}" role="button">Изменить</a>
+  {% endif %}
+
   <div class="card">
     <div class="card-body">
       <h3 class="card-title">{{ mall.name }}</h3>
       <h5 class="card-subtitle mb-2 text-muted">{{ mall.address }}</h5>
-      <h5 class="card-subtitle mb-2">Владелец: {{ mall.owner.username }}</h5>
+      <h5 class="card-subtitle mb-2">Владелец: {{ mall.owner.email }}</h5>
       <p class="card-text">{{ mall.description }}</p>
 
       <h4 class="card-text">Площади</h4>
