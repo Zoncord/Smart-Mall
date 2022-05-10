@@ -4,6 +4,7 @@ WORKDIR /urs/src/smart_mall
 
 RUN apk update
 RUN apk add postgresql-dev gcc python3-dev musl-dev libffi-dev
+RUN apk add jpeg-dev zlib-dev
 
 RUN pip install 'poetry'
 
