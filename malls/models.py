@@ -81,4 +81,4 @@ class Rent(models.Model):
         verbose_name_plural = 'Аренды'
 
     def __str__(self):
-        return f'{self.tenant} арендует - площадь №{self.area}'
+        return f'{self.tenant} арендует - площадь №{self.area.pk}'

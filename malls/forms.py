@@ -1,6 +1,7 @@
 from django import forms
-from malls.models import Mall, Area
+from malls.models import Mall, Area, Rent
 from users.models import BasicCustomer
+from django.utils import timezone
 
 
 class MallForm(forms.ModelForm):
@@ -23,3 +24,15 @@ class AreaForm(forms.ModelForm):
     class Meta:
         model = Area
         fields = ['price', 'available', 'square', 'mall']
+
+
+class RentForm(forms.ModelForm):
+    rental_start_date_time = forms.DateTimeField(label='Дата и время начала аренды', initial=timezone.now, widget=forms.DateTimeInput(attrs={'class': 'form-control'}))
+    balance = forms.IntegerField(label='Баланс', widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    status = forms.ChoiceField(label='Статус аренды', choices=Rent.STATUS_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+    area = forms.ModelChoiceField(label='Скрыто', queryset=Area.objects.all(), empty_label=None, blank=True, widget=forms.HiddenInput())
+    tenant = forms.ModelChoiceField(label='Скрыто', queryset=BasicCustomer.objects.all(), empty_label=None, blank=True, widget=forms.HiddenInput())
+
+    class Meta:
+        model = Rent
+        fields = ['rental_start_date_time', 'balance', 'status', 'area', 'tenant']
