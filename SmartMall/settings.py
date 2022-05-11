@@ -136,13 +136,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 MEDIA_URL = '/media/'
+
 AUTH_USER_MODEL = 'users.BasicCustomer'
 AUTHENTICATION_BACKENDS = ['users.backends.EmailBackend']
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = os.path.join(BASE_DIR / 'sent_emails')
 LOGIN_URL = 'user:login'
 LOGIN_REDIRECT_URL = 'user:profile'
 LOGOUT_REDIRECT_URL = 'user:login'
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = os.environ.get("EMAIL_PORT")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = int(os.environ.get("EMAIL_USE_TLS"))
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
