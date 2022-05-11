@@ -13,6 +13,7 @@ class AreaAdmin(admin.TabularInline):
     model = models.Area
     extra = 1
     max_num = 100
+    
 
 
 @admin.register(models.Mall)
@@ -37,6 +38,7 @@ class RentInline(admin.TabularInline):
 class AreaAdmin(admin.ModelAdmin):
     inlines = [RentInline]
     list_display = ['mall', 'available']
+    exclude = ('decore_string',)
 
     class Meta:
         model = models.Area

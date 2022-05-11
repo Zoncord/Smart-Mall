@@ -1,1 +1,17 @@
-я арендатор
+{% extends 'base.html' %}
+
+
+{% block title %}Профиль арендатора{% endblock %}
+{% block content %}
+<div class="active_rent" class="mb-5">
+    <h2 class="mb-3">Текущие аренды</h2>
+    {% for rent in active_rent %}
+    {% include "includes/rent_card.html" %}
+    {% empty %}
+    <h2>У вас нет активных аренд</h2>
+    {% endfor %}
+</div>
+{% include 'includes/contact_form.html' %}
+<h2 class="mb-3">Мои карты</h2>
+<p>Я бомж=(</p>
+{% endblock %}
