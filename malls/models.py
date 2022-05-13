@@ -52,7 +52,7 @@ class Area(models.Model):
         (False, 'Занято')
     ]
 
-    mall = models.ForeignKey(Mall, on_delete=models.DO_NOTHING, related_name='areas', verbose_name='Торговый центр')
+    mall = models.ForeignKey(Mall, on_delete=models.CASCADE, related_name='areas', verbose_name='Торговый центр')
     price = models.PositiveIntegerField('Цена')
     available = models.BooleanField('Доступность', choices=AVAILABLE_CHOICES, default=True)
     square = models.PositiveIntegerField('Площадь в кв. метрах')
@@ -88,4 +88,4 @@ class Rent(models.Model):
         verbose_name_plural = 'Аренды'
 
     def __str__(self):
-        return f'{self.tenant} арендует - площадь №{self.area}'
+        return f'{self.tenant} арендует - площадь №{self.area.pk}'
