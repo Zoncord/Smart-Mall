@@ -14,7 +14,8 @@ class BasicCustomerManager(BaseUserManager):
 
     def _create_user(self, email, password, **extra_fields):
         if not email:
-            raise ValueError("Почта должна быть указана в обязательном порядке.")
+            raise ValueError(
+                "Почта должна быть указана в обязательном порядке.")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -114,6 +115,7 @@ class TenantProfile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True, related_name="tenant_profile"
     )
+    contacts_and_over_information = models.TextField("Контакты и другая важная информация", blank=True)
     objects = TenantManager()
 
     class Meta:
@@ -133,7 +135,7 @@ class LessorProfile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True, related_name="lessor_profile"
     )
-
+    contacts_and_over_information = models.TextField("Контакты и другая важная информация", blank=True)
     def __str__(self):
         return f"Арендодатель {self.user.email}"
 
