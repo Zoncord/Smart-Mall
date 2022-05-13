@@ -1,0 +1,22 @@
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">{{ mall.name }}</h3>
+        <h5 class="card-subtitle mb-2 text-muted">Адресс: {{ mall.address }}</h5>
+        <div class="list-group my-3">
+            <h4 class="card-text">Площади</h4>
+            {% regroup mall.areas.all by get_available_display as rent %}
+            {% for areas in rent %}
+            <h5 class="card-subtitle mb-2">{{ areas.grouper }}</h5>
+            {% for area in areas.list %}
+            <a href="{% url 'area_detail' mall.pk area.pk %}"
+                class="list-group-item list-group-item-action">{{ area }}</a>
+            {% endfor %}
+            {% empty %}
+            <h5 class="card-subtitle mb-2 text-muted">Площадей нет</h5>
+            {% endfor %}
+        </div>
+
+        <a href="{% url 'mall_detail' mall.id %}"
+            class="btn btn-primary">Подробнее</a>
+    </div>
+</div>

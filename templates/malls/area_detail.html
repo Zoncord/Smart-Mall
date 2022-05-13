@@ -2,16 +2,17 @@
 
 {% block title %}Информация о площади{% endblock %}
 {% block content %}
-  <h1 class="my-3">Информация о площади</h1>
+<h1 class="my-3">Информация о площади</h1>
 
-  <a class="btn btn-primary my-3" href="{% url 'mall_detail' area.mall.pk %}" role="button">Назад</a>
+<a class="btn btn-primary my-3" href="{% url 'mall_detail' area.mall.pk %}"
+  role="button">Назад</a>
 
-  <div class="card">
-    <div class="card-body">
-      <h3 class="card-title">{{ area }}</h3>
-      <h5 class="card-subtitle mb-2">Доступность: {{ area.get_available_display }}</h5>
-      <h5 class="card-subtitle mb-2">Площадь: {{ area.square }} кв. м.</h5>
-      <h4 class="card-title mb-2">Цена: {{ area.price }} руб.</h4>
-    </div>
+<div class="card">
+  <div class="card-body">
+    <h3 class="card-title">{{ area }}</h3>
+    <h5 class="card-subtitle mb-2">Доступность: {{ area.get_available_display }}</h5>
+    <h5 class="card-subtitle mb-2">Площадь: {{ area.square }} кв. м.</h5>
+    <h4 class="card-title mb-2">Цена: {{ area.price }} руб.</h4>
   </div>
+</div>
 {% endblock %}

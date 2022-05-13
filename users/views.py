@@ -5,9 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views import View
 from django.utils.decorators import method_decorator
-from .forms import BeautifulAuthenticationForm, UserForm, BeautifulUserCreationForm
+from .forms import BeautifulAuthenticationForm, UserForm, BeautifulUserCreationForm, TenantForm, LessorForm
 from django.urls import reverse
-from .decorators import tenant_required, lessor_required
+from core.decorators import tenant_required, lessor_required
+from malls.models import Rent, Mall
 
 
 def get_user_profile(request) -> dict:
@@ -88,20 +89,44 @@ class LoginView(View):
                 return redirect(reverse("user:profile"))
         return self.get(request)
 
+
 @method_decorator(lessor_required, name="get")
 class LessorView(View):
     def get(self, request):
         template = "users/lessor.html"
-        return render(request, template)
+        form = TenantForm(instance=request.user.lessor_profile)
+        my_mall = Mall.objects.filter(owner=request.user).prefetch_related('areas')
+        context = {"my_mall": my_mall, "form": form}
+        return render(request, template, context)
 
     def post(self, request):
-        pass
+        form = LessorForm(request.POST, instance=request.user)
+        if form.is_valid():
+            user = request.user.lessor_profile
+            user.contacts_and_over_information = form.cleaned_data["contacts_and_over_information"]
+            user.save()
+            return redirect(reverse("user:lessor_profile"))
+        else:
+            return self.get(request)
+
+
 
 @method_decorator(tenant_required, name="get")
 class TenantView(View):
     def get(self, request):
         template = "users/tenant.html"
-        return render(request, template)
+        form = TenantForm(instance=request.user.tenant_profile)
+        active_rent = Rent.objects.filter(
+            tenant=request.user).filter(status=True).select_related('area').only('balance', 'rental_start_date_time', 'area__id', 'area__decore_string', 'area__mall__id')
+        context = {"active_rent": active_rent, "form": form}
+        return render(request, template, context)
 
     def post(self, request):
-        pass
+        form = TenantForm(request.POST, instance=request.user)
+        if form.is_valid():
+            user = request.user.tenant_profile
+            user.contacts_and_over_information = form.cleaned_data["contacts_and_over_information"]
+            user.save()
+            return redirect(reverse("user:tenant_profile"))
+        else:
+            return self.get(request)

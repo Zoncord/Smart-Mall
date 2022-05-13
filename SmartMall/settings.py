@@ -44,11 +44,13 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'sorl.thumbnail',
     'django.forms',
+    'debug_toolbar',
 ]
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -140,6 +142,9 @@ AUTHENTICATION_BACKENDS = ['users.backends.EmailBackend']
 LOGIN_URL = 'user:login'
 LOGIN_REDIRECT_URL = 'user:profile'
 LOGOUT_REDIRECT_URL = 'user:login'
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_PORT = os.environ.get("EMAIL_PORT")
