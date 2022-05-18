@@ -14,5 +14,6 @@ urlpatterns = [
     path('mall/<int:pk>/delete/', views.MallDeleteView.as_view(), name='mall_delete'),
     path('mall/<int:pk>/', views.MallDetailView.as_view(), name='mall_detail'),
     path('mall/new/mall/', views.MallCreateView.as_view(), name='mall_create'),
-    path('', views.DashboardView.as_view(), name='home')
+    path('', views.DashboardView.as_view(), name='home'),
+    path('search/', views.SearchView.as_view(), name='search'),
 ]
