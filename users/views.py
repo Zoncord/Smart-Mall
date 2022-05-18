@@ -14,8 +14,8 @@ from malls.models import Rent, Mall
 def get_user_profile(request) -> dict:
     user = (
         get_user_model()
-        .objects.filter(email=request.user.email)
-        .only(
+            .objects.filter(email=request.user.email)
+            .only(
             "email",
             "first_name",
             "last_name",
@@ -23,7 +23,7 @@ def get_user_profile(request) -> dict:
             "mobile_number",
             "avatar",
         )
-        .first()
+            .first()
     )
     user_form = UserForm(instance=request.user)
     context = {"user": user, "user_form": user_form}
@@ -110,14 +110,15 @@ class LessorView(View):
             return self.get(request)
 
 
-
 @method_decorator(tenant_required, name="get")
 class TenantView(View):
     def get(self, request):
         template = "users/tenant.html"
         form = TenantForm(instance=request.user.tenant_profile)
         active_rent = Rent.objects.filter(
-            tenant=request.user).filter(status=True).select_related('area').only('balance', 'rental_start_date_time', 'area__id', 'area__decore_string', 'area__mall__id')
+            tenant=request.user).filter(status=True).select_related('area').only('balance', 'rental_start_date_time',
+                                                                                 'area__id', 'area__decore_string',
+                                                                                 'area__mall__id')
         context = {"active_rent": active_rent, "form": form}
         return render(request, template, context)
 
