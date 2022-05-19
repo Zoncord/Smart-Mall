@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from malls.models import Mall, Area, Rent
 from malls.forms import MallForm, AreaForm, RentForm
+from core.decorators import tenant_required, lessor_required
+from django.utils.decorators import method_decorator
 
 
 class DashboardView(View):
@@ -37,6 +39,7 @@ class AreaDetailView(View):
         return render(request, template, context)
 
 
+@method_decorator(lessor_required, name='get')
 class MallEditView(View):
     def get(self, request, pk):
         template = 'malls/mall_edit.html'
@@ -58,6 +61,7 @@ class MallEditView(View):
             return self.get(request, pk)
 
 
+@method_decorator(lessor_required, name='get')
 class AreaEditView(View):
     def get(self, request, pk, area_pk):
         template = 'malls/area_edit.html'
@@ -80,6 +84,7 @@ class AreaEditView(View):
             return self.get(request, pk, area_pk)
 
 
+@method_decorator(lessor_required, name='get')
 class MallCreateView(View):
     def get(self, request):
         template = 'malls/mall_create.html'
@@ -96,6 +101,7 @@ class MallCreateView(View):
             return self.get(request)
 
 
+@method_decorator(lessor_required, name='get')
 class AreaCreateView(View):
     def get(self, request, pk):
         template = 'malls/area_create.html'

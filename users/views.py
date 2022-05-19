@@ -1,14 +1,13 @@
-import re
-from tempfile import template
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views import View
 from django.utils.decorators import method_decorator
-from .forms import BeautifulAuthenticationForm, UserForm, BeautifulUserCreationForm, TenantForm, LessorForm
+from .forms import BeautifulAuthenticationForm, UserForm, BeautifulUserCreationForm, TenantForm, LessorForm, DepositForm
 from django.urls import reverse
 from core.decorators import tenant_required, lessor_required
 from malls.models import Rent, Mall
+from users.models import TenantProfile
 
 
 def get_user_profile(request) -> dict:
@@ -119,7 +118,8 @@ class TenantView(View):
             tenant=request.user).filter(status=True).select_related('area').only('balance', 'rental_start_date_time',
                                                                                  'area__id', 'area__decore_string',
                                                                                  'area__mall__id')
-        context = {"active_rent": active_rent, "form": form}
+        tenant = TenantProfile.objects.filter(user_id=request.user.id).only('balance').first()
+        context = {"active_rent": active_rent, "form": form, "tenant": tenant}
         return render(request, template, context)
 
     def post(self, request):
@@ -128,6 +128,25 @@ class TenantView(View):
             user = request.user.tenant_profile
             user.contacts_and_over_information = form.cleaned_data["contacts_and_over_information"]
             user.save()
+            return redirect(reverse("user:tenant_profile"))
+        else:
+            return self.get(request)
+
+
+@method_decorator(tenant_required, name="get")
+class DepositView(View):
+    def get(self, request):
+        template = 'users/deposit.html'
+        form = DepositForm()
+        context = {'form': form}
+        return render(request, template, context)
+
+    def post(self, request):
+        form = DepositForm(request.POST)
+        if form.is_valid():
+            tenant = request.user.tenant_profile
+            tenant.balance += form.cleaned_data['deposit']
+            tenant.save()
             return redirect(reverse("user:tenant_profile"))
         else:
             return self.get(request)

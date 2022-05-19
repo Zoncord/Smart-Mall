@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ProfileView, LoginView, SignUpView, TenantView, LessorView
+from .views import ProfileView, LoginView, SignUpView, TenantView, LessorView, DepositView
 from django.contrib.auth.views import (
     LogoutView,
     PasswordResetView,
@@ -67,4 +67,5 @@ urlpatterns = [
     ),
     path("tenant_profile/", TenantView.as_view(), name="tenant_profile"),
     path("lessor_profile/", LessorView.as_view(), name="lessor_profile"),
+    path('deposit/', DepositView.as_view(), name='deposit')
 ]

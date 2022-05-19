@@ -14,9 +14,6 @@
             <a class="nav-link" href="{% url 'area_edit' pk area.pk %}" role="button">Изменить</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'rent_create' pk area.pk %}" role="button">Добавить аренду</a>
-          </li>
-          <li class="nav-item">
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                Удалить
             </button>
@@ -41,6 +38,10 @@
       {% else %}
         <h5 class="card-subtitle mb-2 text-muted">Аренд нет</h5>
       {% endif %}
+
+      {% if user.is_tenant %}
+        <a class="btn btn-primary" href="{% url 'rent_create' pk area.pk %}" role="button">Арендовать</a>
+      {% endif %}
     </div>
   </div>
 
@@ -64,5 +65,4 @@
       </div>
     </div>
   </div>
-</div>
 {% endblock %}
