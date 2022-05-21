@@ -8,14 +8,14 @@
     <div class="card-header">
       <ul class="nav nav-pills card-header-pills">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'home' %}">Назад</a>
+          <a class="nav-link active" href="{% url 'malls:dashboard' %}">Назад</a>
         </li>
         {% if user == mall.owner %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'mall_edit' mall.pk %}" role="button">Изменить</a>
+            <a class="nav-link" href="{% url 'malls:mall_edit' mall.pk %}" role="button">Изменить</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'area_create' mall.pk %}" role="button">Добавить площадь</a>
+            <a class="nav-link" href="{% url 'malls:area_create' mall.pk %}" role="button">Добавить площадь</a>
           </li>
           <li class="nav-item">
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -35,7 +35,7 @@
       {% if mall.areas.all %}
         <div class="list-group my-3">
           {% for area in mall.areas.all %}
-            <a href="{% url 'area_detail' mall.pk area.pk %}" class="list-group-item list-group-item-action">{{ area }}</a>
+            <a href="{% url 'malls:area_detail' mall.pk area.pk %}" class="list-group-item list-group-item-action">{{ area }}</a>
           {% endfor %}
         </div>
       {% else %}
@@ -77,7 +77,7 @@
           Вы уверены, что хотите удалить {{ mall.name }}?
         </div>
         <div class="modal-footer">
-          <form action="{% url 'mall_delete' mall.pk %}" method="post">
+          <form action="{% url 'malls:mall_delete' mall.pk %}" method="post">
             {% csrf_token %}
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
             <input type="submit" class="btn btn-danger" value="Удалить">

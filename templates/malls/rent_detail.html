@@ -8,11 +8,11 @@
     <div class="card-header">
       <ul class="nav nav-pills card-header-pills">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'area_detail' pk area_pk %}">Назад</a>
+          <a class="nav-link active" href="{% url 'malls:area_detail' pk area_pk %}">Назад</a>
         </li>
         {% if user == rent.area.mall.owner %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'rent_edit' pk area_pk rent_pk %}" role="button">Изменить</a>
+            <a class="nav-link" href="{% url 'malls:rent_edit' pk area_pk rent_pk %}" role="button">Изменить</a>
           </li>
           <li class="nav-item">
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">

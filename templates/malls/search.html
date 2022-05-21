@@ -3,7 +3,7 @@
 
 {% block title %}Изменение ТЦ{% endblock %}
 {% block content %}
-<form action="{% url 'search' %}" method="get" ALIGN='center'>
+<form action="{% url 'malls:search' %}" method="get" ALIGN='center'>
     {% for field in search_form %}
     <div class='mb-3'>
         <label for='{{ field.id_for_label }}' class='form-label'>

@@ -2,22 +2,29 @@
 
 {% block title %}Главная{% endblock %}
 {% block content %}
-  <h1 class="my-3">Главная страница</h1>
 
-  {% if user.is_authenticated and user.is_lessor %}
-    <a class="btn btn-primary mb-3" href="{% url 'mall_create' %}" role="button">Создать ТЦ</a>
-  {% endif %}
+    <h1 class="my-3"></h1>
 
-  {% for mall in malls %}
-    <div class="col-sm-6">
-      <div class="card m-2">
-        <div class="card-body">
-          <h5 class="card-title">{{ mall.name }}</h5>
-          <a href="{% url 'mall_detail' mall.pk %}" class="btn btn-primary">Подробнее</a>
+    {% if user.is_lessor %}
+        <a class="btn btn-primary mb-3" href="{% url 'malls:mall_create' %}" role="button">Профиль арендатора</a>
+    {% endif %}
+    {% if user.is_tenant %}
+        <a class="btn btn-primary mb-3" href="{% url 'malls:mall_create' %}" role="button">Профиль арендодателя</a>
+    {% endif %}
+    {% if user.is_authenticated and user.is_lessor %}
+        <a class="btn btn-primary mb-3" href="{% url 'malls:mall_create' %}" role="button">Создать ТЦ</a>
+    {% endif %}
+
+    {% for mall in malls %}
+        <div class="col-sm-6">
+            <div class="card m-2">
+                <div class="card-body">
+                    <h5 class="card-title">{{ mall.name }}</h5>
+                    <a href="{% url 'malls:mall_detail' mall.pk %}" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  {% empty %}
-    <h3>Нет торговых центров</h3>
-  {% endfor %}
+    {% empty %}
+        <h3>Нет торговых центров</h3>
+    {% endfor %}
 {% endblock %}

@@ -7,11 +7,11 @@
     <div class="card-header">
       <ul class="nav nav-pills card-header-pills">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'mall_detail' pk %}">Назад</a>
+          <a class="nav-link active" href="{% url 'malls:mall_detail' pk %}">Назад</a>
         </li>
         {% if user == area.mall.owner %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'area_edit' pk area.pk %}" role="button">Изменить</a>
+            <a class="nav-link" href="{% url 'malls:area_edit' pk area.pk %}" role="button">Изменить</a>
           </li>
           <li class="nav-item">
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -32,7 +32,7 @@
       {% if area.rents.all %}
         <div class="list-group my-3">
           {% for rent in area.rents.all %}
-            <a href="{% url 'rent_detail' pk area.pk rent.pk %}" class="list-group-item list-group-item-action">{{ rent }}</a>
+            <a href="{% url 'malls:rent_detail' pk area.pk rent.pk %}" class="list-group-item list-group-item-action">{{ rent }}</a>
           {% endfor %}
         </div>
       {% else %}
@@ -40,7 +40,7 @@
       {% endif %}
 
       {% if user.is_tenant %}
-        <a class="btn btn-primary" href="{% url 'rent_create' pk area.pk %}" role="button">Арендовать</a>
+        <a class="btn btn-primary" href="{% url 'malls:rent_create' pk area.pk %}" role="button">Арендовать</a>
       {% endif %}
     </div>
   </div>
@@ -56,7 +56,7 @@
           Вы уверены, что хотите удалить {{ area }}?
         </div>
         <div class="modal-footer">
-          <form action="{% url 'area_delete' pk area.pk %}" method="post">
+          <form action="{% url 'malls:area_delete' pk area.pk %}" method="post">
             {% csrf_token %}
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
             <input type="submit" class="btn btn-danger" value="Удалить">

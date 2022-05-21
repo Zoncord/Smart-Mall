@@ -8,7 +8,7 @@
             {% for areas in rent %}
             <h5 class="card-subtitle mb-2">{{ areas.grouper }}</h5>
             {% for area in areas.list %}
-            <a href="{% url 'area_detail' mall.pk area.pk %}"
+            <a href="{% url 'malls:area_detail' mall.pk area.pk %}"
                 class="list-group-item list-group-item-action">{{ area }}</a>
             {% endfor %}
             {% empty %}
@@ -16,7 +16,7 @@
             {% endfor %}
         </div>
 
-        <a href="{% url 'mall_detail' mall.id %}"
+        <a href="{% url 'malls:mall_detail' mall.id %}"
             class="btn btn-primary">Подробнее</a>
     </div>
 </div>
