@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+
+{% block title %}Изменение ТЦ{% endblock %}
+{% block content %}
+<form action="{% url 'search' %}" method="get" ALIGN='center'>
+    {% for field in search_form %}
+    <div class='mb-3'>
+        <label for='{{ field.id_for_label }}' class='form-label'>
+            {{ field.label}}</label>
+        {{ field }}
+        <p>{{ field.help_text }}</p>
+    </div>
+    {% endfor %}
+    <button type="submit" class='btn btn-primary mb-3'>Найти</button>
+</form>
+
+{% if malls %}
+<h3 class='mb-5 mt-3'>Результаты поиска</h3>
+{% for mall in malls %}
+{% include "includes/mall_card.html" %}
+{% endfor %}
+{% endif %}
+
+{% endblock %}

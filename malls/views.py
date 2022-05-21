@@ -1,7 +1,10 @@
+from urllib import response
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import get_user_model
 from django.views import View
 from malls.models import Mall, Area, Rent
-from malls.forms import MallForm, AreaForm, RentForm
+from malls.forms import MallForm, AreaForm, RentForm, Search, FiltersForm
+from django.db.models import Prefetch
 
 
 class DashboardView(View):
@@ -14,14 +17,31 @@ class DashboardView(View):
         }
         return render(request, template, context)
 
+def filter_querisets(search_request):
+    queryset = Area.objects.all()
+    if search_request['min_square'] != '' and search_request['min_square'].isdigit():
+        queryset = queryset.filter(square__gte=search_request['min_square'])
+    if search_request['max_square'] != '' and search_request['max_square'].isdigit():
+        queryset = queryset.filter(square__lte=search_request['max_square'])
+    if search_request['min_price'] != '' and search_request['min_price'].isdigit():
+        queryset = queryset.filter(price__gte=search_request['min_price'])
+    if search_request['max_price'] != '' and search_request['max_price'].isdigit():
+        queryset = queryset.filter(price__lte=search_request['max_price'])
+    return queryset
 
 class MallDetailView(View):
     def get(self, request, pk):
         template = 'malls/mall_detail.html'
-        mall = get_object_or_404(Mall.objects.prefetch_related('gallery', 'areas'), pk=pk)
+        form = FiltersForm()
+        search_request = request.GET.dict()
+        if search_request:
+            mall = get_object_or_404(Mall.objects.prefetch_related('gallery').prefetch_related(Prefetch('areas', queryset=filter_querisets(search_request))), pk=pk)
+        else:
+            mall = get_object_or_404(Mall.objects.prefetch_related('gallery', 'areas'), pk=pk)
         context = {
             'mall': mall,
-            'user': request.user
+            'user': request.user,
+            'form': form
         }
         return render(request, template, context)
 
@@ -191,3 +211,19 @@ class RentDeleteView(View):
         rent = get_object_or_404(Rent, pk=rent_pk)
         rent.delete()
         return redirect('area_detail', pk, area_pk)
+
+User = get_user_model()
+    
+class SearchView(View):
+    def get(self, request):
+        template = 'malls/search.html'
+        search_form = Search()
+        search_request = request.GET.dict()
+        mall = None
+        if search_request and search_request['search'] != '':
+            mall = Mall.objects.filter(name__icontains=search_request['search'])
+            if search_request['owner'] != '':
+                mall = mall.filter(owner__email=search_request['owner'])
+            mall = mall.prefetch_related(Prefetch('areas', queryset=filter_querisets(search_request)))
+        context = {'search_form': search_form, 'malls': mall}
+        return render(request, template, context)
