@@ -32,7 +32,7 @@ class BasicCustomerManager(BaseUserManager):
 
         if extra_fields.get("is_superuser") is not True:
             raise ValueError(
-                "Админимтраторы должны быть определенны с is_superuser=True."
+                "Администраторы должны быть определенны с is_superuser=True."
             )
 
         return self._create_user(email, password, **extra_fields)
@@ -116,6 +116,7 @@ class TenantProfile(models.Model):
         User, on_delete=models.CASCADE, primary_key=True, related_name="tenant_profile"
     )
     contacts_and_over_information = models.TextField("Контакты и другая важная информация", blank=True)
+    balance = models.BigIntegerField('Баланс', default=0)
     objects = TenantManager()
 
     class Meta:
@@ -136,6 +137,7 @@ class LessorProfile(models.Model):
         User, on_delete=models.CASCADE, primary_key=True, related_name="lessor_profile"
     )
     contacts_and_over_information = models.TextField("Контакты и другая важная информация", blank=True)
+
     def __str__(self):
         return f"Арендодатель {self.user.email}"
 

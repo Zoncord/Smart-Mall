@@ -1,5 +1,3 @@
-from dataclasses import field
-import imp
 from django import forms
 from django.contrib.auth.forms import (
     PasswordChangeForm,
@@ -12,7 +10,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import password_validation
 from core.widgets import ImageWidget
 from .models import TenantProfile, LessorProfile
-
 
 
 class BeautifulAuthenticationForm(forms.Form):
@@ -169,12 +166,18 @@ class BeautifulPasswordChangeForm(PasswordChangeForm):
             attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
     )
 
+
 class LessorForm(forms.ModelForm):
     class Meta:
         model = LessorProfile
         fields = ('contacts_and_over_information',)
 
+
 class TenantForm(forms.ModelForm):
     class Meta:
         model = TenantProfile
         fields = ('contacts_and_over_information',)
+
+
+class DepositForm(forms.Form):
+    deposit = forms.IntegerField(label='Сумма депозита', widget=forms.NumberInput(attrs={'class': 'form-control'}))

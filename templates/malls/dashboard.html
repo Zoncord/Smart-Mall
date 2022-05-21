@@ -4,7 +4,7 @@
 {% block content %}
   <h1 class="my-3">Главная страница</h1>
 
-  {% if user.is_authenticated %}
+  {% if user.is_authenticated and user.is_lessor %}
     <a class="btn btn-primary mb-3" href="{% url 'mall_create' %}" role="button">Создать ТЦ</a>
   {% endif %}
 
