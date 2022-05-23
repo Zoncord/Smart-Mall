@@ -37,9 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'users.apps.UsersConfig',
     'rating.apps.RatingConfig',
     'malls.apps.MallsConfig',
+    'home.apps.HomeConfig',
+
     'phonenumber_field',
     'django_cleanup.apps.CleanupConfig',
     'sorl.thumbnail',

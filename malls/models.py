@@ -66,7 +66,7 @@ class Area(models.Model):
         verbose_name_plural = 'Площади'
 
     def __str__(self):
-        return f'Площадь №{self.id}, Размер площади: {self.square}, Цена: {self.price} руб/мес'
+        return f'Площадь №{self.id}, Размер площади: {self.square} кв.м, Цена: {self.price} руб/мес'
 
 
 class Rent(models.Model):

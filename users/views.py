@@ -116,8 +116,7 @@ class TenantView(View):
         form = TenantForm(instance=request.user.tenant_profile)
         active_rent = Rent.objects.filter(
             tenant=request.user).filter(status=True).select_related('area').only('balance', 'rental_start_date_time',
-                                                                                 'area__id', 'area__decore_string',
-                                                                                 'area__mall__id')
+                                                                                 'area__id', 'area__mall__id')
         tenant = TenantProfile.objects.filter(user_id=request.user.id).only('balance').first()
         context = {"active_rent": active_rent, "form": form, "tenant": tenant}
         return render(request, template, context)
