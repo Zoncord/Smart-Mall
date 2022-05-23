@@ -9,7 +9,7 @@
                 {{rent.rental_start_date_time }}</p>
         </div>
         <div class="card-body">
-            <a href="{% url 'area_detail' rent.area.mall_id rent.area.pk %}"
+            <a href="{% url 'malls:area_detail' rent.area.mall_id rent.area.pk %}"
                 class="btn btn-primary">Подробнее</a>
         </div>
     </div>

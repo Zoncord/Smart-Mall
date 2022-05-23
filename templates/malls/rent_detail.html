@@ -42,7 +42,7 @@
           Вы уверены, что хотите удалить аренду?
         </div>
         <div class="modal-footer">
-          <form action="{% url 'rent_delete' pk area_pk rent_pk %}" method="post">
+          <form action="{% url 'malls:rent_delete' pk area_pk rent_pk %}" method="post">
             {% csrf_token %}
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
             <input type="submit" class="btn btn-danger" value="Удалить">
