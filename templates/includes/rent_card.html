@@ -6,11 +6,11 @@
             </div>
             <p class="card-text">Текущий баланс: {{ rent.balance }}</p>
             <p class="card-text">Начало аренды:
-                {{rent.rental_start_date_time }}</p>
+                {{ rent.rental_start_date_time }}</p>
         </div>
         <div class="card-body">
-            <a href="{% url 'area_detail' rent.area.mall_id rent.area.pk %}"
-                class="btn btn-primary">Подробнее</a>
+            <a href="{% url 'malls:area_detail' rent.area.mall_id rent.area.pk %}"
+               class="btn btn-primary">Подробнее</a>
         </div>
     </div>
 </div>

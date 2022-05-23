@@ -1,6 +1,7 @@
 from django.urls import path
 from malls import views
 
+app_name = 'malls'
 urlpatterns = [
     path('mall/<int:pk>/area/<int:area_pk>/rent/<int:rent_pk>/edit/', views.RentEditView.as_view(), name='rent_edit'),
     path('mall/<int:pk>/area/<int:area_pk>/rent/<int:rent_pk>/delete/', views.RentDeleteView.as_view(), name='rent_delete'),
@@ -15,5 +16,5 @@ urlpatterns = [
     path('mall/<int:pk>/', views.MallDetailView.as_view(), name='mall_detail'),
     path('search/', views.SearchView.as_view(), name='search'),
     path('mall/new/', views.MallCreateView.as_view(), name='mall_create'),
-    path('', views.DashboardView.as_view(), name='home')
+    path('', views.DashboardView.as_view(), name='dashboard')
 ]

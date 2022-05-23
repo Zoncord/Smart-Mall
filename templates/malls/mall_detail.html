@@ -2,88 +2,97 @@
 
 {% block title %}Информация о ТЦ{% endblock %}
 {% block content %}
-  <h1 class="my-3">Информация о ТЦ</h1>
+    <h1 class="my-3">Информация о ТЦ</h1>
 
-  <div class="card">
-    <div class="card-header">
-      <ul class="nav nav-pills card-header-pills">
-        <li class="nav-item">
-          <a class="nav-link active" href="{% url 'home' %}">Назад</a>
-        </li>
-        {% if user == mall.owner %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'mall_edit' mall.pk %}" role="button">Изменить</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'area_create' mall.pk %}" role="button">Добавить площадь</a>
-          </li>
-          <li class="nav-item">
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-               Удалить
-            </button>
-          </li>
-        {% endif %}
-      </ul>
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'malls:dashboard' %}">Назад</a>
+                </li>
+                {% if user == mall.owner %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'malls:mall_edit' mall.pk %}" role="button">Изменить</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'malls:area_create' mall.pk %}" role="button">Добавить
+                            площадь</a>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                            Удалить
+                        </button>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title">{{ mall.name }}</h3>
+            <h5 class="card-subtitle mb-2 text-muted">{{ mall.address }}</h5>
+            <h5 class="card-subtitle mb-2">Владелец: {{ mall.owner.email }}</h5>
+            <p class="card-text">{{ mall.description }}</p>
+
+            <h4 class="card-text">Площади</h4>
+            {% if mall.areas.all %}
+                <div class="list-group my-3">
+                    {% regroup mall.areas.all by get_available_display as rent %}
+                    {% for areas in rent %}
+                        <h5 class="card-subtitle mb-2">{{ areas.grouper }}</h5>
+                        {% for area in areas.list %}
+                            <a href="{% url 'malls:area_detail' mall.pk area.pk %}"
+                               class="list-group-item list-group-item-action">{{ area }}</a>
+                        {% endfor %}
+                    {% empty %}
+                        <h5 class="card-subtitle mb-2 text-muted">Площадей нет</h5>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <h5 class="card-subtitle mb-2 text-muted">Площадей нет</h5>
+            {% endif %}
+
+            <h4 class="card-text">Галерея</h4>
+            {% if mall.gallery.all %}
+                <div class="container my-3">
+                    {% for image in mall.gallery.all %}
+                        <img src="{{ image.get_image.url }}" alt="Картинка ТЦ" class="img-fluid">
+                    {% endfor %}
+                </div>
+            {% else %}
+                <h5 class="card-subtitle mb-2 text-muted">Картинок нет</h5>
+            {% endif %}
+            <form action="." method="get" ALIGN='center'>
+                {% for field in form %}
+                    <div class='mb-3'>
+                        <label for='{{ field.id_for_label }}' class='form-label'>
+                            {{ field.label }}</label>
+                        {{ field }}
+                        <p>{{ field.help_text }}</p>
+                    </div>
+                {% endfor %}
+                <button type="submit" class='btn btn-primary mb-3'>Применить фильтры для площадей</button>
+            </form>
+        </div>
     </div>
-    <div class="card-body">
-      <h3 class="card-title">{{ mall.name }}</h3>
-      <h5 class="card-subtitle mb-2 text-muted">{{ mall.address }}</h5>
-      <h5 class="card-subtitle mb-2">Владелец: {{ mall.owner.email }}</h5>
-      <p class="card-text">{{ mall.description }}</p>
 
-      <h4 class="card-text">Площади</h4>
-      {% if mall.areas.all %}
-        <div class="list-group my-3">
-          {% for area in mall.areas.all %}
-            <a href="{% url 'area_detail' mall.pk area.pk %}" class="list-group-item list-group-item-action">{{ area }}</a>
-          {% endfor %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Удаление ТЦ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Вы уверены, что хотите удалить {{ mall.name }}?
+                </div>
+                <div class="modal-footer">
+                    <form action="{% url 'malls:mall_delete' mall.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <input type="submit" class="btn btn-danger" value="Удалить">
+                    </form>
+                </div>
+            </div>
         </div>
-      {% else %}
-        <h5 class="card-subtitle mb-2 text-muted">Площадей нет</h5>
-      {% endif %}
-
-      <h4 class="card-text">Галерея</h4>
-      {% if mall.gallery.all %}
-        <div class="container my-3">
-          {% for image in mall.gallery.all %}
-            <img src="{{ image.get_image.url }}" alt="Картинка ТЦ" class="img-fluid">
-          {% endfor %}
-        </div>
-      {% else %}
-        <h5 class="card-subtitle mb-2 text-muted">Картинок нет</h5>
-      {% endif %}
-      <form action="." method="get" ALIGN='center'>
-        {% for field in form %}
-        <div class='mb-3'>
-            <label for='{{ field.id_for_label }}' class='form-label'>
-                {{ field.label}}</label>
-            {{ field }}
-            <p>{{ field.help_text }}</p>
-        </div>
-        {% endfor %}
-        <button type="submit" class='btn btn-primary mb-3'>Применить фильтры для площадей</button>
-    </form>
     </div>
-  </div>
-
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Удаление ТЦ</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Вы уверены, что хотите удалить {{ mall.name }}?
-        </div>
-        <div class="modal-footer">
-          <form action="{% url 'mall_delete' mall.pk %}" method="post">
-            {% csrf_token %}
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-            <input type="submit" class="btn btn-danger" value="Удалить">
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
 {% endblock %}
