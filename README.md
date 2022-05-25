@@ -2,9 +2,19 @@
 
 ---
 
+## About
+
+У владельца торгового центра (далее. ТЦ) есть множество площадей, которые предприниматели арендуют под магазины, кафе и
+т.д. При этом каждый расчётный период (например, месяц) арендаторы платят за занимаемое ими место.\
+Однако часто происходит следующая ситуация: арендатор задерживает платеж за арендованное помещение, но продолжает им пользоваться.
+Несмотря на его обещания погасить долг, владелец ТЦ не получает своих денег. В результате стороны договора не могут
+урегулировать спор и обращаются в суд.\
+Smart Mall автоматизирует процесс сбора платы за помещение, упрощая работу для арендатора и арендодателя.
+---
 ## Quick start
 
-1. Install docker
-2. Run ```docker build -t <image-name> .```
-3. Run ```docker run -p 8000:8000 <image-name>```
-4. Go to ```localhost:8000```
+1. Install [docker compose](https://docs.docker.com/compose/install/)
+2. Run ```docker-compose up -d --build```
+3. Run ```docker-compose exec smart_mall_backend python manage.py migrate```
+4. Run ```docker-compose exec smart_mall_backend python manage.py collectstatic```
+5. Go to ```localhost```

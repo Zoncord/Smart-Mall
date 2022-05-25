@@ -26,7 +26,7 @@ DEBUG = int(os.environ.get('DEBUG', default=1))
 
 ALLOWED_HOSTS = os.environ.get(
     'ALLOWED_HOSTS', default='.localhost 127.0.0.1 [::1]'
-).split()
+).split(',')
 
 # Application definition
 
@@ -120,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
