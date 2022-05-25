@@ -1,3 +1,4 @@
+from ast import Pass
 from django import forms
 from django.contrib.auth.forms import (
     PasswordChangeForm,
@@ -10,6 +11,23 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import password_validation
 from core.widgets import ImageWidget
 from .models import TenantProfile, LessorProfile
+
+
+class Passform(forms.Form):
+    password1 = forms.CharField(
+        label=_('Password'),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    password2 = forms.CharField(
+        label=_('Password confirmation'),
+        widget=forms.PasswordInput(
+            attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+        strip=False,
+        help_text=_('Enter the same password as before, for verification.'),
+    )
 
 
 class BeautifulAuthenticationForm(forms.Form):
@@ -81,7 +99,7 @@ class UserForm(forms.ModelForm):
         )
 
 
-class BeautifulUserCreationForm(UserCreationForm):
+class BeautifulUserCreationForm(UserCreationForm, Passform):
     def __init__(self, *args, **kwargs):
         super(BeautifulUserCreationForm, self).__init__(*args, **kwargs)
 
@@ -91,43 +109,15 @@ class BeautifulUserCreationForm(UserCreationForm):
         widget=forms.EmailInput(
             attrs={'autocomplete': 'email', 'class': 'form-control'})
     )
-    password1 = forms.CharField(
-        label=_('Password'),
-        strip=False,
-        widget=forms.PasswordInput(
-            attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
-        help_text=password_validation.password_validators_help_text_html(),
-    )
-    password2 = forms.CharField(
-        label=_('Password confirmation'),
-        widget=forms.PasswordInput(
-            attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
-        strip=False,
-        help_text=_('Enter the same password as before, for verification.'),
-    )
 
     class Meta:
         model = get_user_model()
         fields = ('email', 'password1', 'password2')
 
 
-class BeautifulSetPasswordForm(SetPasswordForm):
+class BeautifulSetPasswordForm(SetPasswordForm, Passform):
     def __init__(self, *args, **kwargs):
         super(BeautifulSetPasswordForm, self).__init__(*args, **kwargs)
-
-    new_password1 = forms.CharField(
-        label=_('New password'),
-        widget=forms.PasswordInput(
-            attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
-        strip=False,
-        help_text=password_validation.password_validators_help_text_html(),
-    )
-    new_password2 = forms.CharField(
-        label=_('New password confirmation'),
-        strip=False,
-        widget=forms.PasswordInput(
-            attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
-    )
 
 
 class BeautifulPasswordResetForm(PasswordResetForm):
