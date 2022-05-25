@@ -26,7 +26,7 @@ DEBUG = int(os.environ.get('DEBUG', default=1))
 
 ALLOWED_HOSTS = os.environ.get(
     'ALLOWED_HOSTS', default='.localhost 127.0.0.1 [::1]'
-).split()
+).split(',')
 
 # Application definition
 
@@ -88,8 +88,12 @@ WSGI_APPLICATION = 'SmartMall.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+        'ENGINE': os.environ.get('POSTGRES_ENGINE'),
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
     }
 }
 
@@ -116,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
