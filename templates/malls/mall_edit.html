@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}Изменение ТЦ{% endblock %}
+{% block content %}
+  <h1 class="mb-5 mt-3">Изменение информации о ТЦ</h1>
+
+  <a class="btn btn-primary mb-3" href="{% url 'malls:mall_detail' mall.pk %}" role="button">Назад</a>
+
+  {% include 'includes/default_form.html' %}
+{% endblock %}

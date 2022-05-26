@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Профиль арендатора{% endblock %}
+{% block content %}
+  <h1 class="mt-3">Баланс: {{ tenant.balance }}</h1>
+  <a class="btn btn-primary mb-3" href="{% url 'user:deposit' %}" role="button">Пополнить</a>
+  <div class="active_rent" class="mb-5">
+    <h2 class="mb-3">Текущие аренды</h2>
+    {% for rent in active_rent %}
+      {% include "includes/rent_card.html" %}
+    {% empty %}
+      <h2>У вас нет активных аренд</h2>
+    {% endfor %}
+  </div>
+  {% include 'includes/contact_form.html' %}
+  <h2 class="mb-3">Мои карты</h2>
+  <p>Карт нет</p>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Профиль арендодатора{% endblock %}
+{% block content %}
+<h1 class="my-3">Информация о ТЦ</h1>
+{% for mall in my_mall %}
+{% include 'includes/mall_card.html' %}
+{% endfor %}
+{% include 'includes/contact_form.html' %}
+{% endblock %}

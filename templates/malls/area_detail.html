@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Информация о площади{% endblock %}
+{% block content %}
+<h1 class="my-3">Информация о площади</h1>
+  <div class="card">
+    <div class="card-header">
+      <ul class="nav nav-pills card-header-pills">
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'malls:mall_detail' pk %}">Назад</a>
+        </li>
+        {% if user == area.mall.owner %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'malls:area_edit' pk area.pk %}" role="button">Изменить</a>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+               Удалить
+            </button>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+
+    <div class="card-body">
+      <h3 class="card-title">{{ area }}</h3>
+      <h5 class="card-subtitle mb-2 text-muted">Доступность: {{ area.get_available_display }}</h5>
+      <h5 class="card-subtitle mb-2">Площадь: {{ area.square }} кв. м.</h5>
+      <h4 class="card-title mb-2">Цена: {{ area.price }} руб.</h4>
+
+      <h4 class="card-text">Аренды</h4>
+      {% if area.rents.all %}
+        <div class="list-group my-3">
+          {% for rent in area.rents.all %}
+            <a href="{% url 'malls:rent_detail' pk area.pk rent.pk %}" class="list-group-item list-group-item-action">{{ rent }}</a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <h5 class="card-subtitle mb-2 text-muted">Аренд нет</h5>
+      {% endif %}
+
+      {% if user.is_tenant %}
+        <a class="btn btn-primary" href="{% url 'malls:rent_create' pk area.pk %}" role="button">Арендовать</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Удаление площади</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Вы уверены, что хотите удалить {{ area }}?
+        </div>
+        <div class="modal-footer">
+          <form action="{% url 'malls:area_delete' pk area.pk %}" method="post">
+            {% csrf_token %}
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+            <input type="submit" class="btn btn-danger" value="Удалить">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
