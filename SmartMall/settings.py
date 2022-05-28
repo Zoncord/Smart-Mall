@@ -22,7 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', default='<django-secret-key>')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get('DEBUG', default=1))
+DEBUG = os.environ.get('DEBUG', default='1')
+if DEBUG.isdigit():
+    DEBUG = int(DEBUG)
+else:
+    # преобразует строковое значение в переменную типа bool
+    DEBUG = (DEBUG.lower() == 'true')
 
 ALLOWED_HOSTS = os.environ.get(
     'ALLOWED_HOSTS', default='.localhost 127.0.0.1 [::1]'
@@ -88,14 +93,15 @@ WSGI_APPLICATION = 'SmartMall.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('POSTGRES_ENGINE'),
+        'ENGINE': os.environ.get('POSTGRES_ENGINE', default='django.db.backends.postgresql_psycopg2'),
         'NAME': os.environ.get('POSTGRES_DB'),
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': os.environ.get('POSTGRES_HOST'),
-        'PORT': os.environ.get('POSTGRES_PORT'),
+        'HOST': os.environ.get('POSTGRES_HOST', default='db'),
+        'PORT': os.environ.get('POSTGRES_PORT', default='5432'),
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

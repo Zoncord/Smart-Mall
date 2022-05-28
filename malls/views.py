@@ -4,6 +4,7 @@ from django.views import View
 from malls.models import Mall, Area, Rent
 from core.decorators import tenant_required, lessor_required
 from django.utils.decorators import method_decorator
+from django.contrib import messages
 from malls.forms import MallForm, AreaForm, RentForm
 
 from malls.services import get_mall_detail_context, get_search_context
@@ -96,7 +97,7 @@ class MallCreateView(View):
         form = MallForm(request.POST, initial={'owner': request.user.pk})
         if form.is_valid():
             form.save()
-            return redirect('home:home')
+            return redirect('malls:dashboard')
         else:
             return self.get(request)
 
@@ -125,7 +126,7 @@ class MallDeleteView(View):
     def post(self, request, pk):
         mall = get_object_or_404(Mall, pk=pk)
         mall.delete()
-        return redirect('home:home')
+        return redirect('malls:dashboard')
 
 
 class AreaDeleteView(View):

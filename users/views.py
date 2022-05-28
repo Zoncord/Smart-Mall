@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from .forms import BeautifulAuthenticationForm, UserForm, BeautifulUserCreationForm, TenantForm, LessorForm, DepositForm
 from django.urls import reverse
 from core.decorators import tenant_required, lessor_required
+from django.contrib import messages
 from malls.models import Rent, Mall
 from users.models import TenantProfile
 
@@ -64,8 +65,10 @@ class ProfileView(View):
             user.is_lessor = form.cleaned_data["is_lessor"]
             user.is_tenant = form.cleaned_data["is_tenant"]
             user.save()
+            messages.info(request, 'Профиль обновлен успешно')
             return redirect(reverse("user:profile"))
         else:
+            messages.error(request, 'Произошла ошибка, перепроверьте вводимые данные.')
             return self.get(request)
 
 
