@@ -17,6 +17,18 @@
     </div>
     {% endfor %}
 
+    {% if messages %}
+    <ul class='messages'>
+        {% for message in messages %}
+            {% if message.tags == 'info' %}
+                <li class='list-group-item list-group-item-success'>{{ message }}</li>
+            {% else %}
+                <li class='list-group-item list-group-item-danger'>{{ message }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     <input type='submit' class='btn btn-primary mb-3'
         value='Сохранить изменения'>
 </form>
