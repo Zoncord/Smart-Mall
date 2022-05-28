@@ -26,7 +26,7 @@
       <h3 class="card-title">{{ area }}</h3>
       <h5 class="card-subtitle mb-2 text-muted">Доступность: {{ area.get_available_display }}</h5>
       <h5 class="card-subtitle mb-2">Площадь: {{ area.square }} кв. м.</h5>
-      <h4 class="card-title mb-2">Цена: {{ area.price }} руб.</h4>
+      <h4 class="card-title mb-2">Цена: {{ area.price }}₽</h4>
 
       <h4 class="card-text">Аренды</h4>
       {% if area.rents.all %}

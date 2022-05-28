@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
         <h3 class="card-title">{{ mall.name }}</h3>
-        <h5 class="card-subtitle mb-2 text-muted">Адресс: {{ mall.address }}</h5>
+        <h5 class="card-subtitle mb-2 text-muted">Адрес: {{ mall.address }}</h5>
         <div class="list-group my-3">
             <h4 class="card-text">Площади</h4>
             {% regroup mall.areas.all by get_available_display as rent %}

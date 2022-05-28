@@ -7,7 +7,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: gunicorn SmartMall.wsgi:application --bind 0.0.0.0:8000
+    command: ["gunicorn", "SmartMall.wsgi:application", "--bind", "0.0.0.0:8000"]
     volumes:
       - static_volume:/home/smart_mall/staticfiles
       - media_volume:/home/smart_mall/mediafiles
