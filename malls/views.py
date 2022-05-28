@@ -5,7 +5,7 @@ from malls.models import Mall, Area, Rent
 from core.decorators import tenant_required, lessor_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
-from malls.forms import MallForm, AreaForm, RentForm
+from malls.forms import MallForm, AreaForm, RentForm, ImageUploadForm
 
 from malls.services import get_mall_detail_context, get_search_context
 
@@ -27,6 +27,12 @@ class MallDetailView(View):
         template = 'malls/mall_detail.html'
         context = get_mall_detail_context(request, pk)
         return render(request, template, context)
+
+    def post(self, request, pk):
+        image_form = ImageUploadForm(request.POST, request.FILES, initial={'mall': pk})
+        if image_form.is_valid():
+            image_form.save()
+        return self.get(request, pk)
 
 
 class AreaDetailView(View):

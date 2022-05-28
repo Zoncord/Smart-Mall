@@ -1,5 +1,5 @@
 from django import forms
-from malls.models import Mall, Area, Rent
+from malls.models import Mall, Area, Rent, Gallery
 from users.models import BasicCustomer
 from django.utils import timezone
 
@@ -63,3 +63,13 @@ class Search(FiltersForm):
     owner = forms.CharField(label='Имя владельца(необязательно)', max_length=100,
                             widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
     field_order = ['search', 'owner', 'max_square', 'min_square', 'max_price', 'min_price']
+
+
+class ImageUploadForm(forms.ModelForm):
+    image = forms.ImageField(label='Фотография', widget=forms.FileInput(attrs={'class': 'form-control'}))
+    mall = forms.ModelChoiceField(label='Скрыто', queryset=Mall.objects.all(), empty_label=None, blank=True,
+                                  widget=forms.HiddenInput())
+
+    class Meta:
+        model = Gallery
+        fields = ['mall', 'image']

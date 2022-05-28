@@ -2,7 +2,7 @@ from django.db.models import Prefetch, QuerySet
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 
-from malls.forms import Search, FiltersForm
+from malls.forms import Search, FiltersForm, ImageUploadForm
 from malls.models import Mall, Area
 
 
@@ -41,9 +41,11 @@ def get_mall_detail_context(request: HttpRequest, mall_pk: int) -> dict:
             Prefetch('areas', queryset=__filter_query_set(search_request))), pk=mall_pk)
     else:
         mall = get_object_or_404(Mall.objects.prefetch_related('gallery', 'areas'), pk=mall_pk)
+    image_form = ImageUploadForm(initial={'mall': mall_pk})
     context = {
         'mall': mall,
         'user': request.user,
-        'form': form
+        'form': form,
+        'image_form': image_form
     }
     return context
